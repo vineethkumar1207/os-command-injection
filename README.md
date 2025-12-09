@@ -2,10 +2,10 @@
  
 Step 1: Clone Repository
  
-# Navigate to desired directory
+Navigate to desired directory
 cd ~/projects
  
-# Clone the OS command injection detector repository
+Clone the OS command injection detector repository
 git clone https://github.com/vineethkumar1207/os-command-injection-ml.git
 cd os-command-injection-ml
 
@@ -13,24 +13,24 @@ Step 2. Create virtual environment
 python3.10 -m venv venv
  
 3. Activate virtual environment
-# On Linux/macOS:
+ On Linux/macOS:
 source venv/bin/activate
  
 On Windows (if applicable):
-# venv\Scripts\activate
+venv\Scripts\activate
  
-# Verify activation (your prompt should show: (venv) $)
+ Verify activation (your prompt should show: (venv) $)
  
 Step 3: Install Dependencies
  
-# Upgrade pip, setuptools, wheel
+Upgrade pip, setuptools, wheel
 pip install --upgrade pip setuptools wheel
  
-# Install required packages from requirements.txt
+ Install required packages from requirements.txt
 pip install -r requirements.txt
  
-# Expected output:
-# Successfully installed fastapi==0.104.1 uvicorn==0.24.0 scikit-learn==1.3.0 ...
+ Expected output:
+ Successfully installed fastapi==0.104.1 uvicorn==0.24.0 scikit-learn==1.3.0 ...
  
 Requirements File Contents (requirements.txt):
 
@@ -48,35 +48,35 @@ pydantic==2.4.2,
 2.1 Starting All Services
 Automated Startup (Recommended):
  
-# Make startup script executable
+ Make startup script executable
 chmod +x start_all.sh
  
-# Run startup script
+ Run startup script
 ./start_all.sh
  
-# Expected output:
-# Starting ML Command Detection System...
-# Starting ML Server on port 8000...
-# ML Server PID: 12345
-# Starting MCP Bridge on port 8002...
-# MCP Bridge PID: 12346
-#  All services started!
-# ML Server: http://localhost:8000
-# MCP Bridge: http://localhost:8002
+ Expected output:
+ Starting ML Command Detection System...
+ Starting ML Server on port 8000...
+ ML Server PID: 12345
+ Starting MCP Bridge on port 8002...
+ MCP Bridge PID: 12346
+  All services started!
+ ML Server: http://localhost:8000
+ MCP Bridge: http://localhost:8002
  
 Manual Startup (if needed):
  
-# Terminal 1: Start ML Backend Server
+ Terminal 1: Start ML Backend Server
 cd ~/os-command-injection-ml
 source venv/bin/activate
 python3 ml_server_pipeline.py 8000
  
-# Terminal 2: Start MCP Bridge Server
+ Terminal 2: Start MCP Bridge Server
 cd ~/os-command-injection-ml
 source venv/bin/activate
 python3 mcp_bridge_stdio.py
  
-# Terminal 3: Start MCP HTTP Bridge (optional)
+ Terminal 3: Start MCP HTTP Bridge (optional)
 cd ~/os-command-injection-ml
 source venv/bin/activate
 python3 mcp_bridge.py
@@ -85,10 +85,10 @@ python3 mcp_bridge.py
  
 Step 1: Create MCP Configuration File:
  
-# Create .config directory if needed
+ Create .config directory if needed
 mkdir -p ~/.config/Code/User
  
-# Create or edit mcp.json
+ Create or edit mcp.json
 nano ~/.config/Code/User/mcp.json
  
 Step 2: Add Configuration:
@@ -376,3 +376,4 @@ Based on research from:
 - Wang et al. (2024) - CNN-BiLSTM-Attention for command injection
 - Ye et al. (2024) - LLM-based taint analysis
 - OWASP Top 10 - 2021
+
