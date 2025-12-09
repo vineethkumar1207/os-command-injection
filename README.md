@@ -1,39 +1,322 @@
-1. Environment Setup
- 
-Step 1: Clone Repository
- 
-Navigate to desired directory
+## 🚀 Environment Setup
+
+### **Step 1: Clone Repository**
+
+**Linux/macOS:**
+```bash
+# Navigate to desired directory
 cd ~/projects
- 
-Clone the OS command injection detector repository
-git clone https://github.com/vineethkumar1207/os-command-injection-ml.git
-cd os-command-injection-ml
 
-Step 2. Create virtual environment
+# Clone the repository
+git clone https://github.com/vineethkumar1207/os-command-injection.git
+cd os-command-injection
+```
+
+**Windows:**
+```powershell
+# Navigate to desired directory
+cd C:\Users\YourName\projects
+
+# Clone the repository
+git clone https://github.com/vineethkumar1207/os-command-injection.git
+cd os-command-injection
+```
+
+---
+
+### **Step 2: Create Virtual Environment**
+
+**Linux/macOS:**
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# OR specify Python 3.10
 python3.10 -m venv venv
- 
-3. Activate virtual environment
- On Linux/macOS:
-source venv/bin/activate
- 
-On Windows (if applicable):
-venv\Scripts\activate
- 
- Verify activation (your prompt should show: (venv) $)
- 
-Step 3: Install Dependencies
- 
-Upgrade pip, setuptools, wheel
-pip install --upgrade pip setuptools wheel
- 
- Install required packages from requirements.txt
-pip install -r requirements.txt
- 
- Expected output:
- Successfully installed fastapi==0.104.1 uvicorn==0.24.0 scikit-learn==1.3.0 ...
- 
-Requirements File Contents (requirements.txt):
+```
 
+**Windows:**
+```powershell
+# Create virtual environment
+python -m venv venv
+
+# OR specify Python 3.10 if available
+py -3.10 -m venv venv
+```
+
+---
+
+### **Step 3: Activate Virtual Environment**
+
+**Linux/macOS:**
+```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Verify activation (your prompt should show: (venv) $)
+```
+
+**Windows:**
+```powershell
+# PowerShell activation
+venv\Scripts\Activate.ps1
+
+# If execution policy error:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+venv\Scripts\Activate.ps1
+
+# Alternative: Command Prompt activation
+venv\Scripts\activate.bat
+
+# Verify activation (your prompt should show: (venv))
+```
+
+---
+
+### **Step 4: Install Dependencies**
+
+**Linux/macOS:**
+```bash
+# Upgrade pip, setuptools, wheel
+pip install --upgrade pip setuptools wheel
+
+# Install required packages from requirements.txt
+pip install -r requirements.txt
+
+# Expected output:
+# Successfully installed fastapi==0.104.1 uvicorn==0.24.0 scikit-learn==1.3.0 ...
+```
+
+**Windows:**
+```powershell
+# Upgrade pip, setuptools, wheel
+python -m pip install --upgrade pip setuptools wheel
+
+# Install required packages from requirements.txt
+pip install -r requirements.txt
+
+# Expected output:
+# Successfully installed fastapi==0.104.1 uvicorn==0.24.0 scikit-learn==1.3.0 ...
+```
+
+---
+
+## ⚙️ Running the System
+
+### **2.1 Starting All Services**
+
+#### **Automated Startup (Recommended)**
+
+**Linux/macOS:**
+```bash
+# Make startup script executable
+chmod +x start_all.sh
+
+# Run startup script
+./start_all.sh
+
+# Expected output:
+# Starting ML Command Detection System...
+# Starting ML Server on port 8000...
+# ML Server PID: 12345
+# Starting MCP Bridge on port 8002...
+# MCP Bridge PID: 12346
+# All services started!
+# ML Server: http://localhost:8000
+# MCP Bridge: http://localhost:8002
+```
+
+**Windows:**
+```powershell
+# Run startup batch file
+.\start_all.bat
+
+# Expected output:
+# Starting ML Command Detection System...
+# Starting ML Server on port 8000...
+# Starting MCP Bridge on port 8002...
+# All services started!
+# ML Server: http://localhost:8000
+# MCP Bridge: http://localhost:8002
+```
+
+---
+
+#### **Manual Startup (if needed)**
+
+**Linux/macOS:**
+```bash
+# Terminal 1: Start ML Backend Server
+cd ~/os-command-injection
+source venv/bin/activate
+python3 ml_server_pipeline.py
+
+# Terminal 2: Start MCP Bridge Server
+cd ~/os-command-injection
+source venv/bin/activate
+python3 mcp_bridge_stdio.py
+
+# Terminal 3: Start MCP HTTP Bridge (optional)
+cd ~/os-command-injection
+source venv/bin/activate
+python3 mcp_bridge.py
+```
+
+**Windows:**
+```powershell
+# Terminal 1: Start ML Backend Server
+cd C:\Users\YourName\os-command-injection
+venv\Scripts\Activate.ps1
+python ml_server_pipeline.py
+
+# Terminal 2: Start MCP Bridge Server
+cd C:\Users\YourName\os-command-injection
+venv\Scripts\Activate.ps1
+python mcp_bridge_stdio.py
+
+# Terminal 3: Start MCP HTTP Bridge (optional)
+cd C:\Users\YourName\os-command-injection
+venv\Scripts\Activate.ps1
+python mcp_bridge.py
+```
+
+---
+
+## 🔧 Configuring VS Code MCP
+
+### **Step 1: Create MCP Configuration File**
+
+**Linux/macOS:**
+```bash
+# Create .config directory if needed
+mkdir -p ~/.config/Code/User
+
+# Create or edit mcp.json
+nano ~/.config/Code/User/mcp.json
+
+# OR use VS Code
+code ~/.config/Code/User/mcp.json
+```
+
+**Windows:**
+```powershell
+# Create directory if needed
+New-Item -ItemType Directory -Path "$env:APPDATA\Code\User" -Force
+
+# Create or edit mcp.json
+notepad "$env:APPDATA\Code\User\mcp.json"
+
+# OR use VS Code
+code "$env:APPDATA\Code\User\mcp.json"
+```
+
+---
+
+### **Step 2: Add Configuration**
+
+**Linux/macOS:**
+```json
+{
+  "ml-command-detector": {
+    "type": "stdio",
+    "command": "/home/user/os-command-injection/venv/bin/python",
+    "args": ["/home/user/os-command-injection/mcp_bridge_stdio.py"],
+    "env": {
+      "ML_SERVER": "http://localhost:8000"
+    }
+  }
+}
+```
+
+**Windows:**
+```json
+{
+  "ml-command-detector": {
+    "type": "stdio",
+    "command": "C:\\Users\\YourName\\os-command-injection\\venv\\Scripts\\python.exe",
+    "args": ["C:\\Users\\YourName\\os-command-injection\\mcp_bridge_stdio.py"],
+    "env": {
+      "ML_SERVER": "http://localhost:8000"
+    }
+  }
+}
+```
+
+**Important:** Replace `/home/user/` or `C:\\Users\\YourName\\` with your actual project path!
+
+---
+
+### **Step 3: Restart VS Code**
+
+**Linux/macOS:**
+```bash
+# Close VS Code completely
+killall code
+
+# Reopen VS Code
+code
+
+# Wait 5-10 seconds for MCP server to register
+# The ml-command-detector server should now appear in MCP Panel
+```
+
+**Windows:**
+```powershell
+# Close VS Code completely
+Stop-Process -Name "Code" -Force
+
+# Reopen VS Code
+code
+
+# Wait 5-10 seconds for MCP server to register
+# The ml-command-detector server should now appear in MCP Panel
+```
+
+---
+
+## ✅ Quick Start
+
+**Linux/macOS:**
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Start services
+./start_all.sh
+
+# 3. Verify health
+curl http://localhost:8000/health
+
+# 4. Configure VS Code
+# Add mcp.json to ~/.config/Code/User/
+
+# 5. Restart VS Code and use in GitHub Copilot Chat
+```
+
+**Windows:**
+```powershell
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Start services
+.\start_all.bat
+
+# 3. Verify health
+curl http://localhost:8000/health
+# OR
+Invoke-WebRequest -Uri http://localhost:8000/health
+
+# 4. Configure VS Code
+# Add mcp.json to %APPDATA%\Code\User\
+
+# 5. Restart VS Code and use in GitHub Copilot Chat
+```
+
+---
+
+### **Requirements File Contents (`requirements.txt`)**
+
+```txt
 fastapi==0.104.1
 uvicorn==0.24.0
 scikit-learn==1.3.0
@@ -41,86 +324,14 @@ pandas==2.0.3
 numpy==1.24.3
 joblib==1.3.2
 requests==2.31.0
-pydantic==2.4.2, 
+pydantic==2.4.2
+```
 
-2. Running the System
+---
 
-2.1 Starting All Services
-Automated Startup (Recommended):
- 
- Make startup script executable
-chmod +x start_all.sh
- 
- Run startup script
-./start_all.sh
- 
- Expected output:
- Starting ML Command Detection System...
- Starting ML Server on port 8000...
- ML Server PID: 12345
- Starting MCP Bridge on port 8002...
- MCP Bridge PID: 12346
-  All services started!
- ML Server: http://localhost:8000
- MCP Bridge: http://localhost:8002
- 
-Manual Startup (if needed):
- 
- Terminal 1: Start ML Backend Server
-cd ~/os-command-injection-ml
-source venv/bin/activate
-python3 ml_server_pipeline.py 8000
- 
- Terminal 2: Start MCP Bridge Server
-cd ~/os-command-injection-ml
-source venv/bin/activate
-python3 mcp_bridge_stdio.py
- 
- Terminal 3: Start MCP HTTP Bridge (optional)
-cd ~/os-command-injection-ml
-source venv/bin/activate
-python3 mcp_bridge.py
+##  Troubleshooting and Maintenance
 
-3. Configuring VS Code MCP
- 
-Step 1: Create MCP Configuration File:
- 
- Create .config directory if needed
-mkdir -p ~/.config/Code/User
- 
- Create or edit mcp.json
-nano ~/.config/Code/User/mcp.json
- 
-Step 2: Add Configuration:
- 
-{
-  "ml-command-detector": {
-    "type": "stdio",
-    "command": "/home/user/os-command-injection-ml/venv/bin/python",
-    "args": ["/home/user/os-command-injection-ml/mcp_bridge_stdio.py"],
-    "env": {
-      "ML_SERVER": "http://localhost:8000"
-    }
-  }
-}
-
-Restart VS Code
-Close VS Code completely
-Reopen VS Code
-Wait 5-10 seconds for MCP server to register
-The ml-command-detector server should now appear in MCP Panel
-
-**Quick Start:**
-1.	Install dependencies: pip install -r requirements.txt
-2.	Start services: ./start_all.sh
-3.	Verify health: curl http://localhost:8000/health
-4.	Configure VS Code: Add mcp.json to ~/.config/Code/User/
-5.	Restart VS Code and use in GitHub Copilot Chat
-
-
-## 🐛 Troubleshooting and Maintenance
-
-### 6.1 Common Issues and Solutions
+### 5.1 Common Issues and Solutions
 
 #### **Issue 1: "Connection refused" on port 8000**
 
@@ -376,4 +587,5 @@ Based on research from:
 - Wang et al. (2024) - CNN-BiLSTM-Attention for command injection
 - Ye et al. (2024) - LLM-based taint analysis
 - OWASP Top 10 - 2021
+
 
