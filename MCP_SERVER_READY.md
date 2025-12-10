@@ -25,7 +25,7 @@ The MCP server is configured in `~/.config/Code/User/mcp.json`:
     "command": "/home/kali/os-command-injection-ml/venv/bin/python",
     "args": ["/home/kali/os-command-injection-ml/mcp_bridge_stdio.py"],
     "env": {
-      "ML_SERVER": "http://localhost:8000"
+      "ML_SERVER": "http://127.0.0.1:8000"
     }
   }
 }
