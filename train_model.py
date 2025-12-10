@@ -16,8 +16,18 @@ def train_model():
     print("Training TF-IDF + Logistic Regression Model")
     print("=" * 70)
     
-    # Load dataset
-    data_file = Path('data/generated_command_injection_dataset.csv')
+    # Load dataset: prefer canonical name, otherwise pick the most recent generated CSV
+    data_dir = Path('data')
+    canonical = data_dir / 'generated_command_injection_dataset.csv'
+    if canonical.exists():
+        data_file = canonical
+    else:
+        # pick latest generated file
+        candidates = sorted(data_dir.glob('generated_command_injection_dataset*.csv'), key=lambda p: p.stat().st_mtime, reverse=True)
+        if not candidates:
+            raise FileNotFoundError(f"No dataset found in {data_dir}")
+        data_file = candidates[0]
+
     print(f"\n1. Loading dataset from {data_file}...")
     df = pd.read_csv(data_file)
     
