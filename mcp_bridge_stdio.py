@@ -5,7 +5,7 @@ import sys
 import requests
 from typing import Any, Dict
 
-ML_SERVER = "http://localhost:8000"
+ML_SERVER = "http://127.0.0.1:8000"
 
 def send_response(response: Dict[str, Any]) -> None:
     """Send JSON-RPC response to stdout"""
