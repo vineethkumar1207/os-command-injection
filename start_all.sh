@@ -18,11 +18,9 @@ python3 mcp_bridge.py > mcp_bridge.log 2>&1 &
 BRIDGE_PID=$!
 echo "MCP Bridge PID: $BRIDGE_PID"
 
-# HexStrike AI should already be running
 echo "✅ All services started!"
-echo "ML Server: http://localhost:8000"
-echo "MCP Bridge: http://localhost:8002"
-echo "HexStrike AI: http://localhost:8001"
+echo "ML Server: http://127.0.0.1:8000"
+echo "MCP Bridge: http://127.0.0.1:8002"
 
 echo ""
 echo "To stop services:"
