@@ -122,8 +122,8 @@ chmod +x start_all.sh
 # Starting MCP Bridge on port 8002...
 # MCP Bridge PID: 12346
 # All services started!
-# ML Server: http://localhost:8000
-# MCP Bridge: http://localhost:8002
+# ML Server: http://127.0.0.1:8000
+# MCP Bridge: http://127.0.0.1:8002
 ```
 
 **Windows:**
@@ -136,8 +136,8 @@ chmod +x start_all.sh
 # Starting ML Server on port 8000...
 # Starting MCP Bridge on port 8002...
 # All services started!
-# ML Server: http://localhost:8000
-# MCP Bridge: http://localhost:8002
+# ML Server: http://127.0.0.1:8000
+# MCP Bridge: http://127.0.0.1:8002
 ```
 
 ---
@@ -222,7 +222,7 @@ code "$env:APPDATA\Code\User\mcp.json"
     "command": "/home/user/os-command-injection/venv/bin/python",
     "args": ["/home/user/os-command-injection/mcp_bridge_stdio.py"],
     "env": {
-      "ML_SERVER": "http://localhost:8000"
+      "ML_SERVER": "http://127.0.0.1:8000"
     }
   }
 }
@@ -236,7 +236,7 @@ code "$env:APPDATA\Code\User\mcp.json"
     "command": "C:\\Users\\YourName\\os-command-injection\\venv\\Scripts\\python.exe",
     "args": ["C:\\Users\\YourName\\os-command-injection\\mcp_bridge_stdio.py"],
     "env": {
-      "ML_SERVER": "http://localhost:8000"
+      "ML_SERVER": "http://127.0.0.1:8000"
     }
   }
 }
@@ -285,7 +285,7 @@ pip install -r requirements.txt
 ./start_all.sh
 
 # 3. Verify health
-curl http://localhost:8000/health
+curl http://127.0.0.1:8000/health
 
 # 4. Configure VS Code
 # Add mcp.json to ~/.config/Code/User/
@@ -302,9 +302,9 @@ pip install -r requirements.txt
 .\start_all.bat
 
 # 3. Verify health
-curl http://localhost:8000/health
+curl http://127.0.0.1:8000/health
 # OR
-Invoke-WebRequest -Uri http://localhost:8000/health
+Invoke-WebRequest -Uri http://127.0.0.1:8000/health
 
 # 4. Configure VS Code
 # Add mcp.json to %APPDATA%\Code\User\
@@ -587,5 +587,6 @@ Based on research from:
 - Wang et al. (2024) - CNN-BiLSTM-Attention for command injection
 - Ye et al. (2024) - LLM-based taint analysis
 - OWASP Top 10 - 2021
+
 
 
