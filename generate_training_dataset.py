@@ -1,87 +1,23 @@
 #!/usr/bin/env python3
 """
-Generate OS Command Injection dataset using HexStrike AI payload generation
+Generate OS Command Injection dataset
 """
 import sys
 import json
 import csv
 import os
 from pathlib import Path
-import requests
 
-# HexStrike server endpoint
-HEXSTRIKE_SERVER = "http://0.0.0.0:8888"
-
-def call_hexstrike_api(endpoint, data):
-    """Call HexStrike API endpoint"""
-    try:
-        response = requests.post(
-            f"{HEXSTRIKE_SERVER}/api/{endpoint}",
-            json=data,
-            timeout=30
-        )
-        if response.status_code == 200:
-            return response.json()
-        else:
-            print(f"    Warning: API returned {response.status_code}")
-            return None
-    except requests.exceptions.ConnectionError:
-        print(f"    Warning: Cannot connect to HexStrike server at {HEXSTRIKE_SERVER}")
-        return None
-    except Exception as e:
-        print(f"    Warning: API call failed: {e}")
-        return None
+# Directory where this script is located
+SCRIPT_DIR = Path(__file__).parent.resolve()
 
 def generate_malicious_payloads():
-    """Generate malicious command injection payloads using HexStrike"""
-    payloads = []
-    
-    print("Generating malicious command injection payloads...")
-    
-    # Try to use HexStrike API if available
-    hexstrike_available = call_hexstrike_api("health", {}) is not None
-    
-    if hexstrike_available:
-        print("  Using HexStrike AI for payload generation...")
-        
-        # Configuration for different complexity levels and targets
-        configs = [
-            # Basic command injection
-            {'attack_type': 'cmd_injection', 'complexity': 'basic', 'technology': 'linux'},
-            {'attack_type': 'cmd_injection', 'complexity': 'basic', 'technology': 'windows'},
-            
-            # Advanced command injection
-            {'attack_type': 'cmd_injection', 'complexity': 'advanced', 'technology': 'linux'},
-            {'attack_type': 'cmd_injection', 'complexity': 'advanced', 'technology': 'windows'},
-            
-            # Bypass techniques
-            {'attack_type': 'cmd_injection', 'complexity': 'bypass', 'technology': 'linux'},
-        ]
-        
-        for config in configs:
-            print(f"  Generating {config['complexity']} payloads for {config['technology']}...")
-            
-            result = call_hexstrike_api('ai/generate_payload', config)
-            
-            if result and result.get('success'):
-                payload_data = result.get('ai_payload_generation', {})
-                generated_payloads = payload_data.get('payloads', [])
-                
-                for p in generated_payloads:
-                    if isinstance(p, dict) and 'payload' in p:
-                        payloads.append(p['payload'])
-                    elif isinstance(p, str):
-                        payloads.append(p)
-    
-    # Fallback: Generate comprehensive manual payload list
-    if len(payloads) < 50:
-        print("  Using manual payload generation (HexStrike not available or limited results)...")
-        payloads.extend(generate_manual_command_injection_payloads())
-    
+    """Generate malicious command injection payloads (manual generation)."""
+    print("Generating malicious command injection payloads (manual)...")
+    payloads = generate_manual_command_injection_payloads()
     # Deduplicate
     unique_payloads = list(set(payloads))
     print(f"  Generated {len(unique_payloads)} unique malicious payloads")
-    
     return unique_payloads
 
 def generate_manual_command_injection_payloads():
@@ -262,9 +198,15 @@ def save_dataset(output_file, malicious, benign):
     print(f"✅ Saved {len(malicious)} malicious + {len(benign)} benign = {len(malicious) + len(benign)} total samples")
 
 def main():
-    output_dir = Path('/home/kali/os-command-injection-ml/data')
+    # Save into repository `data/` directory (Windows-friendly)
+    output_dir = SCRIPT_DIR / 'data'
     output_dir.mkdir(parents=True, exist_ok=True)
     output_file = output_dir / 'generated_command_injection_dataset.csv'
+    # If the default file exists (possibly locked), write to a timestamped file instead
+    if output_file.exists():
+        import time
+        timestamp = time.strftime('%Y%m%d_%H%M%S')
+        output_file = output_dir / f'generated_command_injection_dataset_{timestamp}.csv'
     
     print("=" * 60)
     print("Generating OS Command Injection Training Dataset")
