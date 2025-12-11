@@ -571,10 +571,6 @@ If you encounter issues not covered here:
 ## 👨‍🎓 Author
 
 **Vineeth Kumar Dodda**  
-Student ID: x23411538  
-MSc in Cyber Security  
-National College of Ireland  
-Supervisor: Michael Prior
 
 ## 📄 License
 
@@ -587,6 +583,7 @@ Based on research from:
 - Wang et al. (2024) - CNN-BiLSTM-Attention for command injection
 - Ye et al. (2024) - LLM-based taint analysis
 - OWASP Top 10 - 2021
+
 
 
 
